@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
-  integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> -->
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
@@ -15,16 +15,17 @@
 <body>
     <div id="app">
         <v-app>
-          <v-main><div class="container">
+          <v-main>
+              <div class="container">
               
             <v-container>Hello world</v-container>
-            <v-btn elevation="2" outlined @click="getMemberList"> test</v-btn>
+            <!-- <v-btn elevation="2" outlined @click="getMemberList">一覧</v-btn> -->
             <v-btn elevation="4" outlined x-large>large</v-btn>
             <v-btn elevation="5" x-large color="success" dark>Extra large Button</v-btn>
                 <p>{{message}}</p>
-                <p>{{List}}</p>
-            
-          </v-main></div>
+                <p>{{List[10].Qui}}</p>
+            </div>
+          </v-main>
         </v-app>
       </div>
     <!-- <div id="app">
@@ -42,7 +43,7 @@
         </div>
     </div>
         
-            <v-btn class="btn"  elevation="4" outlined x-large>A</v-btn>
+            <v-btn class="btn"  elevation="4" outlined x-large>{{List[10].AnsA}}</v-btn>
             <v-btn color="accent" elevation="4" outlined x-large>B</v-btn>
             <v-btn color="accent" elevation="4" outlined x-large>C</v-btn>
             <v-btn color="accent" elevation="4" outlined x-large>D</v-btn>
@@ -53,36 +54,28 @@
             
         </div>
     </div> -->
-    
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="./app.js"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        
         <script>
-            // CSRFトークンの設定
-            // axios.defaults.xsrfCookieName = 'csrftoken'
-            // axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-            // クッキー送信の許可　withCredentials
-            // axios.defaults.withCredentials = true
 
+        let url = "https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec";
             new Vue({
                     el: '#app',
                     vuetify: new Vuetify(),
                     data: {
-                        message    : '',
+                        message : '',
                         List : '',
+
                     },
-                    methods: {
-                        getMemberList: function() {
-                            axios.get(
-                                'https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec')
+                    
+                    // mounted: function()
+                    created() {
+                            axios.get(url)
                             .then(res => this.List = res.data)
-                            .catch(err => this.message = err)
+                            .catch(res => console.log(res))
+
                         }
                     },
-            });
+            );
             
         </script>
 
