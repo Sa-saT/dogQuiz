@@ -25,42 +25,16 @@
             <v-btn elevation="4" outlined x-large>large</v-btn>
             <v-btn elevation="5" x-large color="success" dark>Extra large Button</v-btn> -->
             <p><br>
-            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsA}}</v-btn>
-            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsB}}</v-btn>
-            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsC}}</v-btn>
-            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsD}}</v-btn></p>
+            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>A</v-btn>
+            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>B</v-btn>
+            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>C</v-btn>
+            <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>D</v-btn></p>
                 <p>{{Correct}}</p>
                 <p>{{Answers}}</p>
             </div>
           </v-main>
         </v-app>
       </div>
-    <!-- <div id="app">
-        <div class="center" >
-        <div class="container">
-            <v-btn elevation="2" outlined  @click="getList">リスト取得</v-btn>
-            <button class="btn btn-primary" @click="getList">リスト取得</button>
-            
-                <div id="js-Question" class="mt-3 alert alert-primary" role="alert">
-                    A simple primary alert-check it out!
-                </div>
-            
-            <p>{{message}}</p>
-            <p>{{List}}</p>
-        </div>
-    </div>
-        
-            <v-btn class="button"  elevation="4" outlined x-large></v-btn>
-            <v-btn color="accent" elevation="4" outlined x-large>B</v-btn>
-            <v-btn color="accent" elevation="4" outlined x-large>C</v-btn>
-            <v-btn color="accent" elevation="4" outlined x-large>D</v-btn>
-            <button type="button" class="btn btn-primary">primary</button>
-            <button type="button" class="ml-1 btn btn-primary">primary</button>
-            <button type="button" class="ml-1 btn btn-primary">primary</button>
-            <button type="button" class="ml-1 btn btn-primary">primary</button>
-            
-        </div>
-    </div> -->
         
         <script>
 
@@ -74,10 +48,7 @@
                         Answers: '',
                         List:''
                     },
-                    // methods:{
-                    //     Correct = List.AnsA
-                    // },
-                    // mounted: function()
+        
                     created() {
                             let i = Math.floor( Math.random() * 14 );
                             axios.get(url)
@@ -92,61 +63,58 @@
                             .catch(res => console.log(res))
                             Answers.push(List.AnsA)
                     },
-                    // mounted: {
-                    //     Answers = List.AnsA
-                    // }
+                    
                     });
-                    // let score = 0;
+                    let score = 0;
 
-                    // const $button = document.getElementsByTagName("button");
+                    const $button = document.getElementsByTagName("button");
 
-                    // const setupQuiz = () =>
-                    // {
-                    //     //document.getElementById("js-Question").textContent = Quiz[quizIndex].Question;
+                    const setupQuiz = () =>
+                    {
             
-                    //     for(let i = 0; i < $button.length; i++)
-                    //     {
-                    //         $button[i].textContent = List.AnsB;
-                    //     }
-                    // };
-                    // setupQuiz();
-                    // const clickHandler = (e) =>
-                    // {
-                    //     if(List.AnsA === e.target.textContent)
-                    //     {
-                    //         window.alert("正解");
-                    //         score++;
-                    //     }
-                    //     else
-                    //     {
-                    //         window.alert("不正解");
-                    //     }
+                        for(let i = 0; i < 3; i++)
+                        {
+                            $button[i].textContent = data.Answers[i];
+                        }
+                    };
+                    setupQuiz();
+                    const clickHandler = (e) =>
+                    {
+                        if(Correct === e.target.textContent)
+                        {
+                            window.alert("正解");
+                            score++;
+                        }
+                        else
+                        {
+                            window.alert("不正解");
+                        }
 
-                    //     quizIndex++;
+                        quizIndex++;
 
-                    //     if(quizIndex < Quiz.length)
-                    //     {
-                    //         setupQuiz(quizIndex);
-                    //     }
-                    //     else
-                    //     {
-                    //         window.alert("お　わ　り " + score + "問正解です");
-                    //         location.href = '/.';
-                    //     }
-                    // };
+                        if(quizIndex < 5)
+                        {
+                            setupQuiz(quizIndex);
+                        }
+                        else
+                        {
+                            window.alert("お　わ　り " + score + "問正解です");
+                            location.href = '/.';
+                        }
+                    };
 
-                    // const handlerIndex = () =>
-                    // {
-                    //     for(let i = 0; i < $button.length; i++)
-                    //     {
-                    //         $button[i].addEventListener("click", (e) => 
-                    //         {
-                    //             clickHandler(e);
-                    //         });
-                    //     }
-                    // };
+                    const handlerIndex = () =>
+                    {
+                        for(let i = 0; i < $button.length; i++)
+                        {
+                            $button[i].addEventListener("click", (e) => 
+                            {
+                                clickHandler(e);
+                            });
+                        }
+                    };
 
-                    // handlerIndex();
+                    handlerIndex();
                                         
         </script>
 
