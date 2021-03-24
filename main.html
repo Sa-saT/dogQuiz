@@ -19,7 +19,7 @@
               <div class="container">
               
             <v-container>Hello world</v-container>
-            <p>{{List.Qui}}</p>
+            <p>{{Question}}</p>
             <!-- <p>{{List.AnsA}}</p>
             <v-btn elevation="2" outlined @click="getMemberList">一覧</v-btn>
             <v-btn elevation="4" outlined x-large>large</v-btn>
@@ -29,7 +29,7 @@
             <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsB}}</v-btn>
             <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsC}}</v-btn>
             <v-btn @click="checkA" type="button"  elevation="4" outlined x-large>{{List.AnsD}}</v-btn></p>
-               
+                <p>{{Correct}}</p>
                 <p>{{Answers}}</p>
             </div>
           </v-main>
@@ -71,7 +71,7 @@
                     data: {
                         Question: '',
                         Correct: '',
-                        Answers:'',
+                        Answers: '',
                         List:''
                     },
                     // methods:{
@@ -81,7 +81,14 @@
                     created() {
                             let i = Math.floor( Math.random() * 14 );
                             axios.get(url)
-                            .then(res => {this.List = res.data[i]})
+                            .then(res => {
+                                this.Question = res.data[i].Qui
+                                this.Correct = res.data[i].AnsA
+                                this.Answers = [res.data[i].AnsA, res.data[i].AnsB, res.data[i].AnsC, res.data[i].AnsD]
+                                
+                                //this.Answers = res.data[i].AnsC
+
+                            })
                             .catch(res => console.log(res))
                             Answers.push(List.AnsA)
                     },
