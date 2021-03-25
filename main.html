@@ -53,15 +53,15 @@
                             let i = Math.floor( Math.random() * 14 );
                             axios.get(url)
                             .then(res => {
-                                this.Question = res.data[i].Qui
-                                this.Correct = res.data[i].AnsA
-                                this.Answers = [res.data[i].AnsA, res.data[i].AnsB, res.data[i].AnsC, res.data[i].AnsD]
-                                
-                                //this.Answers = res.data[i].AnsC
+                                this.Question   =  res.data[i].Qui
+                                this.Correct    =  res.data[i].AnsA
+                                this.Answers    = [res.data[i].AnsA,
+                                                   res.data[i].AnsB, 
+                                                   res.data[i].AnsC, 
+                                                   res.data[i].AnsD]
 
                             })
                             .catch(res => console.log(res))
-                            Answers.push(List.AnsA)
                     },
                     
                     });
