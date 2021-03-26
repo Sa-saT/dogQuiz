@@ -52,19 +52,18 @@
             <v-btn elevation="5" x-large color="success" dark>Extra large Button</v-btn> -->
             
             
-            <p class="center" v-for="ans in Answers">            
-            <v-btn @click="checkA()" class="column" type="button"  elevation="4" outlined x-large>{{ans}}</v-btn>
+            <p class="center" v-for="ans in shuffle(Answers)">            
+            <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined x-large>{{ans}}</v-btn>
             <!-- <v-btn @click="checkA()" type="button"  elevation="4" outlined x-large>B</v-btn>
             <v-btn @click="checkA()" type="button"  elevation="4" outlined x-large>C</v-btn>
             <v-btn @click="checkA()" type="button"  elevation="4" outlined x-large>D</v-btn> -->
         <div class="clear"></div></p>
                 <!-- <p>{{Correct}}</p> -->
-                <p>{{Answers}}</p><p>Id:{{Id}}{{score}}</p><hello/>
+                <p>{{Answers}},{{Correct}}</p><p>Id:{{Id}},{{score}}</p>
             </div>
             <div v-show="show2">
                 
-                <p>正解数{{score}}</p><v-btn @click="" type="button"  elevation="4" outlined x-large>C</v-btn>
-                <!-- <v-btn @click="/">Top</v-btn> -->
+                <p>正解数 : {{score}}</p><v-btn href="index.html" type="button"  elevation="4" outlined >おわり</v-btn>
             </div>
           </v-main>
         </v-app>
@@ -86,6 +85,7 @@
                         score: 0,
                         show1: true,
                         show2: false,
+                        shuffleAnswers: [],
                     },
                     
                     created() {
@@ -94,7 +94,7 @@
                             .then(res => {
                                 this.Question   =  res.data[i].Qui
                                 this.Correct    =  res.data[i].AnsA
-                                this.Id         = [i]
+                                this.Id         = [res.data[i].Id]
                                 this.Answers    = [res.data[i].AnsA,
                                                    res.data[i].AnsB, 
                                                    res.data[i].AnsC, 
@@ -102,9 +102,24 @@
 
                             })
                             .catch(res => console.log(res))
+                            //this.shuffleAnswers = this.shuffle(this.Answers)
                     },
-                    methods:{                                              
-                            checkA(e){
+                    // mounted:{
+                    //     this.shuffleAnswers = this.shuffle(this.Answers)
+                    // },
+                    methods:{   
+                        shuffle(array){
+                            const ary = array.slice()
+                            for(let i = array.length -1; i > 0; i--)
+                            {
+                                let y = Math.floor(Math.random() * 3);                           
+                                [ary[i], ary[y]] = [ary[y], ary[i]]
+                            }
+                            console.log(ary)
+                            return ary
+                        },                           
+                                                               
+                        checkA(ans){
                                 // if(this.num < 5)
                                 // {
                                 //     this.num++
@@ -129,8 +144,11 @@
                                 // }
                                 
                                  //if(this.num < 3){
+                                     console.log(ans)
+                                    if(this.Correct === ans)
+                                        this.score++
                                     this.num++
-                                    let i = Math.floor( Math.random() * 14 );
+                                    let i = Math.floor( Math.random() * 14 )
                                      axios.get(url)
                                          .then(res => {
                                              this.Question   =  res.data[i].Qui
