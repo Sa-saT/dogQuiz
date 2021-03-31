@@ -14,68 +14,82 @@
 
 <body>
     <style>
-        .container
+        /* .container
         {
-            text-align: center;
            font-size: 15pt;
-        }
-        .btn
+        } */
+        /* .btn
         {
             color: cornflowerblue;
-        }
+        } */
         .column
         {
-            float: left;
-            margin-right: 10px;
+            /* float: left; */
+            margin-right: 1px;
             /* text-align: center; */
         }
         .clear
         {
             clear: left;
         }
-        .center
+        .answers
         {
-            /* text-align: center; */
-            margin-left: auto;
-            margin-right: auto;
+            margin-right: 2px;
+            float: left;
+            /* color: cornflowerblue; */
         }
+        .main
+        {
+            text-align: center;
+            align-content: center;
+        }
+        .que
+        {
+            font-size: 20px;
+            display:inline-block;
+            text-align:left;
+        }
+        .num
+        {
+            font-size: 20px;
+        }
+        
     </style>
 
     <div id="app">
         <v-app>
-          <v-main>
-           <div v-show="show1" class="container">
+          <v-main class="main">
+           <div v-show="show1">
               
             <v-container>問題：{{num}}</v-container>
-            <p>{{Question}}</p>
-            <!-- <v-btn elevation="2" outlined @click="getMemberList">一覧</v-btn>
-            <v-btn elevation="5" x-large color="success" dark>Extra large Button</v-btn> -->
+            <p class="que">{{Question}}</p><br>
             
-            
-            <p class="center" v-for="ans in shuffle(Answers)">            
-            <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined x-large>{{ans}}</v-btn>
-            <!-- <v-btn @click="checkA()" type="button"  elevation="4" outlined x-large>B</v-btn>
-            <v-btn @click="checkA()" type="button"  elevation="4" outlined x-large>C</v-btn>
-            <v-btn @click="checkA()" type="button"  elevation="4" outlined x-large>D</v-btn> -->
-        <div class="clear"></div></p>
-                <!-- <p>{{Correct}}</p> -->
-                <p>{{Answers}},{{Correct}}</p><p>Id:{{Id}},{{score}}</p>
+            <v-row>
+            <v-col class="answers" v-for="ans in shuffle(Answers)">
+            <!-- <p class="float-lg-left" v-for="ans in shuffle(Answers)">             -->
+            <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined large>{{ans}}</v-btn>
+            </v-col></v-row>
+        <div class="clear"></div>
+    <!-- </p> -->
+                
+                <p>{{Answers}},{{Correct}}</p><p>Id:{{Id}},正解数{{score}},総数{{len}}</p>
             </div>
             <div v-show="show2">
                 
-                <p>正解数 : {{score}}</p><v-btn href="index.html" type="button"  elevation="4" outlined >おわり</v-btn>
+                <p class="num">正解数 : {{score}}</p>
+                <v-btn href="index.html" type="button"  elevation="4" outlined >おわり</v-btn>
             </div>
           </v-main>
         </v-app>
       </div>
         
         <script>
-
+        //let $axios = axios.get("https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec");    
         let url = "https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec";
+        // let len;    
             new Vue({
                     el: '#app',
                     vuetify: new Vuetify(),
-                    
                     data: {
                         Question: '',
                         Correct: '',
@@ -85,151 +99,101 @@
                         score: 0,
                         show1: true,
                         show2: false,
-                        shuffleAnswers: [],
+                        totall: 8,
+                        len: 1,
+                        ran:''
+                        
                     },
+                    //beforeCreate(){
+                    // created(){
+                    //     axios.get("https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec")
+                    //          .then(res => this.len = res.data.length)
+                    //             //console.log(len)
+                    //          .catch(res =>(res))
+                    //this.QuizLength();//先に読み込まない
+                    //},
                     
-                    created() {
-                            let i = Math.floor( Math.random() * 14 );
-                            axios.get(url)
-                            .then(res => {
-                                this.Question   =  res.data[i].Qui
-                                this.Correct    =  res.data[i].AnsA
-                                this.Id         = [res.data[i].Id]
-                                this.Answers    = [res.data[i].AnsA,
-                                                   res.data[i].AnsB, 
-                                                   res.data[i].AnsC, 
-                                                   res.data[i].AnsD]
+                    created() {                       
+                   
+                        this.InitializeData();                   
+                    
 
-                            })
-                            .catch(res => console.log(res))
-                            //this.shuffleAnswers = this.shuffle(this.Answers)
-                    },
-                    // mounted:{
-                    //     this.shuffleAnswers = this.shuffle(this.Answers)
-                    // },
-                    methods:{   
+                     },
+                    
+                    methods:{
+                       async InitializeData()
+                       {
+                            await axios.get(url)
+                                .then(res =>{
+                                    this.len = res.data.length})
+                                .catch(err => (err));
+                            //console.log(this.len);
+                            let i = await Math.floor(Math.random() * this.len);
+                            //console.log(i);
+                            await axios.get(url)
+                                .then(res => { 
+                                                this.Question   =   res.data[i].Qui
+                                                this.Correct    =   res.data[i].AnsA
+                                                this.Id         =  [res.data[i].Id]
+                                                this.Answers    =  [res.data[i].AnsA,
+                                                                    res.data[i].AnsB,
+                                                                    res.data[i].AnsC,
+                                                                    res.data[i].AnsD]
+                                })
+                                .catch(res => (res));                         
+                        },
+                        
                         shuffle(array){
+                             
                             const ary = array.slice()
                             for(let i = array.length -1; i > 0; i--)
                             {
                                 let y = Math.floor(Math.random() * 3);                           
                                 [ary[i], ary[y]] = [ary[y], ary[i]]
                             }
-                            console.log(ary)
+                            //console.log(ary)
                             return ary
-                        },                           
+                        },
+                        //文字列に同一が見つかると"false"
+                        //console.log(existsSameValue(arr));
+                        /// => false
+                        getResult(a, a2) {
+                            let i = a2.length;
+                            while (i--) {
+                                if (a === a2[i]) return false;
+                            }
+                            return true;
+                        },                          
                                                                
-                        checkA(ans){
-                                // if(this.num < 5)
-                                // {
-                                //     this.num++
-                                //     //this.Id.push(4);
-                                //     let i = Math.floor( Math.random() * 14 )
-                                //     for(let x = 0; x < this.Id.length; x++)
-                                //         while(Id[x] !== i){
-                                //             axios.get(url)
-                                //             .then(res => {
-                                //                 this.Question   =  res.data[i].Qui
-                                //                 this.Correct    =  res.data[i].AnsA
-                                //                 this.Answers    = [res.data[i].AnsA,
-                                //                                 res.data[i].AnsB, 
-                                //                                 res.data[i].AnsC, 
-                                //                                 res.data[i].AnsD]
-                                //                 this.Id.push(i +1)
-                                                
-                                //             })
-                                //         }
-                                // }else{
-                                //     　
-                                // }
-                                
-                                 //if(this.num < 3){
-                                     console.log(ans)
-                                    if(this.Correct === ans)
-                                        this.score++
-                                    this.num++
-                                    let i = Math.floor( Math.random() * 14 )
-                                     axios.get(url)
-                                         .then(res => {
-                                             this.Question   =  res.data[i].Qui
-                                             this.Correct    =  res.data[i].AnsA
-                                             //this.Id         = [i]
-                                             this.Answers    = [res.data[i].AnsA,
-                                                             res.data[i].AnsB, 
-                                                             res.data[i].AnsC, 
-                                                             res.data[i].AnsD]
-
-                                         })
-                                         .catch(res => console.log(res))
-                                         this.Id.push(i +1)
-                                        //  if(this.e === Correct)
-                                        //     this.score++;
-                                         if(this.num > 3)
-                                         {
-                                             this.show1 = false;
-                                             this.show2 = true;
-                                         }
-                            //     }else{
-                            //         finish()
-                            //     }
-                            // },
-                            // finish(){
-                            //     template: '<h2 class="hello">{{score}}</h2><br><v-btn @click="./">toppage</vbtn>'
-                             }
+                        checkA(ans){ 
+                                                       
+                            console.log(ans)
+                            if(this.Correct === ans)
+                                this.score++
+                            this.num++
+                            let i = Math.floor( Math.random() * this.len )
+                            
+                            axios.get(url)
+                                 .then(res => {
+                                    this.Question   =  res.data[i].Qui
+                                    this.Correct    =  res.data[i].AnsA                                            
+                                    this.Answers    = [res.data[i].AnsA,
+                                                       res.data[i].AnsB, 
+                                                       res.data[i].AnsC, 
+                                                       res.data[i].AnsD]
+                                 })
+                                 .catch(res => console.log(res))
+                            this.Id.push(i +1)                                        
+                            if(this.num > 3)
+                            {
+                                this.show1 = false;
+                                this.show2 = true;
+                            }
+                        }    
                     },
                     
-                    });
-                    // let score = 0;
-
-                    // const $button = document.getElementsByTagName("button");
-
-                    // const setupQuiz = () =>
-                    // {
-            
-                    //     for(let i = 0; i < 3; i++)
-                    //     {
-                    //         $button[i].textContent = data.Answers[i];
-                    //     }
-                    // };
-                    // setupQuiz();
-                    // const clickHandler = (e) =>
-                    // {
-                    //     if(Correct === e.target.textContent)
-                    //     {
-                    //         window.alert("正解");
-                    //         score++;
-                    //     }
-                    //     else
-                    //     {
-                    //         window.alert("不正解");
-                    //     }
-
-                    //     quizIndex++;
-
-                    //     if(quizIndex < 5)
-                    //     {
-                    //         setupQuiz(quizIndex);
-                    //     }
-                    //     else
-                    //     {
-                    //         window.alert("お　わ　り " + score + "問正解です");
-                    //         location.href = '/.';
-                    //     }
-                    // };
-
-                    // const handlerIndex = () =>
-                    // {
-                    //     for(let i = 0; i < $button.length; i++)
-                    //     {
-                    //         $button[i].addEventListener("click", (e) => 
-                    //         {
-                    //             clickHandler(e);
-                    //         });
-                    //     }
-                    // };
-
-                    // handlerIndex();
-                                        
+            });
+                     
         </script>
 
 
