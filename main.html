@@ -72,7 +72,7 @@
         <div class="clear"></div>
     <!-- </p> -->
                 
-                <p>{{Answers}},{{Correct}}</p><p>Id:{{Id}},正解数{{score}},総数{{len}}</p>
+                <!-- <p>{{Answers}},{{Correct}}</p><p>Id:{{Id}},正解数{{score}},総数{{len}}</p> -->
             </div>
             <div v-show="show2">
                 
@@ -84,9 +84,8 @@
       </div>
         
         <script>
-        //let $axios = axios.get("https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec");    
-        let url = "https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec";
-        // let len;    
+        
+        let url = "https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec";   
             new Vue({
                     el: '#app',
                     vuetify: new Vuetify(),
@@ -101,7 +100,6 @@
                         show2: false,
                         totall: 8,
                         len: 1,
-                        ran:''
                         
                     },
                     //beforeCreate(){
@@ -203,7 +201,7 @@
                                  })
                                  .catch(res => console.log(res))
                             this.Id.push(i +1)                                        
-                            if(this.num > 6)
+                            if(this.num > 5)
                             {
                                 this.show1 = false;
                                 this.show2 = true;
