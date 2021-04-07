@@ -7,13 +7,21 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue-typer/dist/vue-typer.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<script src="https://unpkg.com/vue-ui-preloader"></script>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/vue-ui-preloader/dist/loader.css">
 </head>
 
 <body>
     <style>
+        body 
+        {
+          font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+          
+        }
         /* .container
         {
            font-size: 15pt;
@@ -53,6 +61,10 @@
         {
             font-size: 20px;
         }
+        .type
+        {
+            font-size: 30px;
+        }
         
     </style>
 
@@ -62,11 +74,16 @@
            <div v-show="show1">
               
             <v-container>問題：{{num}}</v-container>
-            <p class="que">{{Question}}</p><br>
+            <vue-typer class="type" :text="Question" :type-speed="30" :repeat="0" :preTypeDelay="0"　:erase-on-complete="false"><br>
+                <!-- <h1 class="typing"></h1> -->
+                <div id="app">
+                <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793"
+                    opacity="80" name="circular"></loader></div>
+            </vue-typer>
             
             <v-row>
             <v-col class="answers" v-for="ans in shuffle(Answers)" :key="ans">
-            <!-- <p class="float-lg-left" v-for="ans in shuffle(Answers)">             -->
+            
             <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined large>{{ans}}</v-btn>
             </v-col></v-row>
         <div class="clear"></div>
@@ -84,13 +101,19 @@
       </div>
         
         <script>
-        
+        const VueTyper = window.VueTyper.VueTyper;
         let url = "https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec";   
+        Vue.use(loader)    
             new Vue({
                     el: '#app',
+                    components: {
+                    'vue-typer': VueTyper,
+                    loader: loader,
+                    
+                    },
                     vuetify: new Vuetify(),
                     data: {
-                        Question: '',
+                        Question: null,
                         Correct: '',
                         Answers: '',
                         Id:'',
