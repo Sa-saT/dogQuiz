@@ -13,6 +13,12 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 <script src="https://unpkg.com/vue-ui-preloader"></script>
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/vue-ui-preloader/dist/loader.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -20,7 +26,11 @@
         body 
         {
           font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+          /* font-family: 'Yusei Magic', sans-serif; */
           
+        }
+        #app{
+            font-family: 'Kiwi Maru', serif;
         }
         .container
         {
@@ -33,8 +43,10 @@
         .column
         {
             /* float: left; */
+            font-family: 'Kiwi Maru', serif;
             margin-right: 1px;
             text-align: center;
+            font-size: 200%;
         }
         .clear
         {
@@ -42,8 +54,10 @@
         }
         .answers
         {
+            font-family: 'Kiwi Maru', serif;
             margin-right: 1px;
             float: left;
+            font-size: 30px;
             /* color: cornflowerblue; */
         }
         .main
@@ -72,6 +86,7 @@
             width: 5px;
         }
         
+        
     </style>
 
     <div id="app">
@@ -79,18 +94,18 @@
           <v-main class="main">
            <div v-show="show1">
               
-            <v-container>問題：{{num}}</v-container>
-            <vue-typer class="type" :text="Question" :type-speed="30" :repeat="0" :preTypeDelay="0"　:erase-on-complete="false">
-                
-            </vue-typer><br>
+            <v-container>題 {{num}} 問！</v-container>
+            <vue-typer class="type" :text="Question" :type-speed="30" :repeat="0" :preTypeDelay="0"　:erase-on-complete="false">                
+            </vue-typer><br><br>
+
             <div v-show="loading" class="load">
             <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="3" speed="2" bg="#343a40" objectbg="#999793"
             opacity="40" name="circular"></loader></div>
             
             <v-row>
-            <v-col class="answers" v-for="ans in shuffle(Answers)" :key="ans">
+            <v-col class="btn" v-for="ans in shuffle(Answers)" :key="ans">
             
-            <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined large>{{ans}}</v-btn>
+            <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined x-large>{{ans}}</v-btn>
             </v-col></v-row>
         <div class="clear"></div>
                 
