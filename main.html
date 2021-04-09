@@ -22,10 +22,10 @@
           font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
           
         }
-        /* .container
+        .container
         {
            font-size: 15pt;
-        } */
+        }
         /* .btn
         {
             color: cornflowerblue;
@@ -34,7 +34,7 @@
         {
             /* float: left; */
             margin-right: 1px;
-            /* text-align: center; */
+            text-align: center;
         }
         .clear
         {
@@ -42,7 +42,7 @@
         }
         .answers
         {
-            margin-right: 2px;
+            margin-right: 1px;
             float: left;
             /* color: cornflowerblue; */
         }
@@ -65,6 +65,12 @@
         {
             font-size: 30px;
         }
+        .load
+        {
+            height: 10px;
+            size: 10px;
+            width: 5px;
+        }
         
     </style>
 
@@ -74,12 +80,12 @@
            <div v-show="show1">
               
             <v-container>問題：{{num}}</v-container>
-            <vue-typer class="type" :text="Question" :type-speed="30" :repeat="0" :preTypeDelay="0"　:erase-on-complete="false"><br>
-                <!-- <h1 class="typing"></h1> -->
-                <div id="app">
-                <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793"
-                    opacity="80" name="circular"></loader></div>
-            </vue-typer>
+            <vue-typer class="type" :text="Question" :type-speed="30" :repeat="0" :preTypeDelay="0"　:erase-on-complete="false">
+                
+            </vue-typer><br>
+            <div v-show="loading" class="load">
+            <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="3" speed="2" bg="#343a40" objectbg="#999793"
+            opacity="40" name="circular"></loader></div>
             
             <v-row>
             <v-col class="answers" v-for="ans in shuffle(Answers)" :key="ans">
@@ -87,14 +93,13 @@
             <v-btn @click="checkA(ans)" class="column" type="button"  elevation="4" outlined large>{{ans}}</v-btn>
             </v-col></v-row>
         <div class="clear"></div>
-    <!-- </p> -->
                 
                 <!-- <p>{{Answers}},{{Correct}}</p><p>Id:{{Id}},正解数{{score}},総数{{len}}</p> -->
             </div>
             <div v-show="show2">
                 
                 <p class="num">正解数 : {{score}}</p>
-                <v-btn href="index.html" type="button"  elevation="4" outlined >おわり</v-btn>
+                <v-btn href="index.html" type="button"  elevation="4" outlined >おしまい ちゃん</v-btn>
             </div>
           </v-main>
         </v-app>
@@ -103,15 +108,16 @@
         <script>
         const VueTyper = window.VueTyper.VueTyper;
         let url = "https://script.google.com/macros/s/AKfycbyJMpTFY3TtzksiA55STjkx5dp4m3MCRWdQC8bocTgMDLFR98ht/exec";   
-        Vue.use(loader)    
+        Vue.use(loader);    
             new Vue({
                     el: '#app',
                     components: {
                     'vue-typer': VueTyper,
-                    loader: loader,
-                    
+                    loader: loader,                    
                     },
+
                     vuetify: new Vuetify(),
+
                     data: {
                         Question: null,
                         Correct: '',
@@ -121,8 +127,8 @@
                         score: 0,
                         show1: true,
                         show2: false,
-                        totall: 8,
                         len: 1,
+                        loading: false,
                         
                     },
                     //beforeCreate(){
@@ -144,6 +150,8 @@
                     methods:{
                        async InitializeData()
                        {
+                           //ローダー表示
+                           this.loading = true;
                            //データ初期設定
                             await axios.get(url)
                                 .then(res =>{
@@ -154,7 +162,8 @@
                             let i = await Math.floor(Math.random() * this.len);
                             //console.log(i);
                             await axios.get(url)
-                                .then(res => { 
+                                .then(res => {
+                                                this.loading    =   false;
                                                 this.Question   =   res.data[i].Qui
                                                 this.Correct    =   res.data[i].AnsA
                                                 this.Id         =  [res.data[i].Id]
@@ -202,7 +211,7 @@
                             if(this.Correct === ans)
                                 this.score++
                             this.num++
-                            
+                            this.loading = true;
                             let i = 0;
                             do {
                                 i = Math.floor(Math.random() * this.len);                                
@@ -215,6 +224,7 @@
 
                             axios.get(url)
                                  .then(res => {
+                                    this.loading    =  false; 
                                     this.Question   =  res.data[i].Qui
                                     this.Correct    =  res.data[i].AnsA                                            
                                     this.Answers    = [res.data[i].AnsA,
