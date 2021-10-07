@@ -1,0 +1,78 @@
+@charset "utf-8";
+
+body {
+  font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  /* font-family: 'Yusei Magic', sans-serif; */
+}
+
+#app {
+  font-family: "Kiwi Maru", serif;
+}
+
+.container {
+  font-size: 15pt;
+}
+
+/* .btn
+        {
+            color: cornflowerblue;
+        } */
+.column {
+  /* float: left; */
+  font-family: "Kiwi Maru", serif;
+  margin-right: 1px;
+  text-align: center;
+  font-size: 200%;
+}
+
+.clear {
+  clear: left;
+}
+
+.answers {
+  font-family: "Kiwi Maru", serif;
+  margin-right: 1px;
+  float: left;
+  font-size: 30px;
+  /* color: cornflowerblue; */
+}
+
+.main {
+  text-align: center;
+  align-content: center;
+}
+
+.que {
+  font-size: 20px;
+  display: inline-block;
+  text-align: left;
+}
+
+.num {
+  font-size: 30px;
+  transition: ease-out 0.5s;
+}
+
+.type {
+  font-size: 30px;
+}
+
+.load {
+  height: 10px;
+  size: 10px;
+  width: 5px;
+}
+@media (max-width: 767px) {
+  body {
+    width: auto;
+    height: 80vh;
+    max-height: 100%;
+  }
+
+  vue-typer {
+    height: 20vh;
+  }
+  v-btn {
+    height: 30vh;
+  }
+}
